@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-
-
 @RestController
 @RequestMapping("/employees")
 class employeesController {
@@ -42,23 +40,7 @@ class employeesController {
         }
     }
 
-    /*@GetMapping("/byDeptno/{deptno}")
-    public List<EmployeeEntity> findUserByDeptno(@PathVariable(value = "deptno") int deptno) {
-        return employeeEntityDAO.findByDeptnoGreaterThan(deptno);
-    }*/
-
-    @GetMapping("/dto/{id}")
-    public ResponseEntity<EmployeeDeptDTO> findEmployeeDTOById(@PathVariable(value = "id") int id) {
-        Optional<EmployeeEntity> Employee = employeeEntityDAO.findById(id);
-
-        if(Employee.isPresent()) {
-            Optional<DeptEntity> Department = DeptEntityDAO.findById(Employee.get().getDeptno());
-
-        }
-        return null;
-    }
-
-    @PostMapping
+    @PostMapping("/")
     public ResponseEntity<?> saveUser(@Validated @RequestBody EmployeeEntity employee) {
         if(!employeeEntityDAO.existsById(employee.getId())) {
             return ResponseEntity.ok(employeeEntityDAO.save(employee));
@@ -86,4 +68,22 @@ class employeesController {
             return ResponseEntity.notFound().build();
         }
     }
+
+
+     /*@GetMapping("/byDeptno/{deptno}")
+    public List<EmployeeEntity> findUserByDeptno(@PathVariable(value = "deptno") int deptno) {
+        return employeeEntityDAO.findByDeptnoGreaterThan(deptno);
+    }*/
+
+    /*@GetMapping("/dto/{id}")
+    public ResponseEntity<EmployeeDeptDTO> findEmployeeDTOById(@PathVariable(value = "id") int id) {
+        Optional<EmployeeEntity> Employee = employeeEntityDAO.findById(id);
+
+        if(Employee.isPresent()) {
+            Optional<DeptEntity> Department = DeptEntityDAO.findById(Employee.get().getDeptno());
+
+        }
+        return null;
+    }*/
 }
+
