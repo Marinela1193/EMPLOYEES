@@ -56,4 +56,5 @@ public class EmployeeDTO {
     public void setLoc(String dloc) {
         this.dloc = dloc;
     }
+
 }

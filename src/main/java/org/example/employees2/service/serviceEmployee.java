@@ -23,6 +23,7 @@ public class serviceEmployee {
 
     public EmployeeEntity getEmployeeById(int id) {
         Optional<EmployeeEntity> employee = employeeEntityDAO.findById(id);
+
         return employee.isPresent() ? employee.get() : null;
     }
 
@@ -42,11 +43,19 @@ public class serviceEmployee {
 
     public void updateEmployee(EmployeeEntity employeeEntity) {
         if(employeeEntityDAO.existsById(employeeEntity.getId())){
-            updateEmployee(employeeEntity);
+            EmployeeDTO employeeDTO = new EmployeeDTO();
+            employeeDTO.setDeptno(employeeEntity.getDeptno().getId());
+            employeeDTO.setEmployeeName(employeeEntity.getEname());
+            employeeDTO.setDname(employeeEntity.getDname());
+            employeeDTO.setJob((employeeEntity.getJob()));
+
+            return employeeDTO;
         }
     }
 
-       /*public EmployeeDTO getEmployeeDTO(int id) {
+    /*public void getEmployeeByDeptNo(String deptNo)  {
+        Optional<EmployeeEntity> employee = employeeEntityDAO.findById()
+
         EmployeeEntity emp = getEmployeeById(id);
         if (emp == null) return null;
 
