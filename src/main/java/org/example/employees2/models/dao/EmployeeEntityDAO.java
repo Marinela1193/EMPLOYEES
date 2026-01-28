@@ -1,4 +1,5 @@
 package org.example.employees2.models.dao;
+import org.example.employees2.models.dto.EmployeeDTO;
 import org.example.employees2.models.entities.EmployeeEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -15,7 +16,9 @@ public interface EmployeeEntityDAO extends JpaRepository<EmployeeEntity, Integer
 
     EmployeeEntity save(EmployeeEntity employee);
 
-    void deleteById(int id);
+    void deleteById(int id);*/
 
-    boolean existsById(Integer id);*/
+    boolean existsById(Integer id);
+
+    boolean existsById(EmployeeDTO employeeDTO);
 }

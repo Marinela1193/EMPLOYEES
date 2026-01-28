@@ -1,6 +1,5 @@
 package org.example.employees2.service;
 
-import org.example.employees2.models.dao.DeptEntityDAO;
 import org.example.employees2.models.dao.EmployeeEntityDAO;
 import org.example.employees2.models.dto.EmployeeDTO;
 import org.example.employees2.models.entities.EmployeeEntity;
@@ -11,12 +10,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-class serviceEmployee {
+public class serviceEmployee {
     @Autowired
     private EmployeeEntityDAO employeeEntityDAO;
 
-    @Autowired
-    private DeptEntityDAO deptEntityDAO;
+    /*@Autowired
+    private DeptEntityDAO deptEntityDAO;*/
 
     public List<EmployeeEntity> getEmployees() {
         return (List<EmployeeEntity>) employeeEntityDAO.findAll();
@@ -27,7 +26,27 @@ class serviceEmployee {
         return employee.isPresent() ? employee.get() : null;
     }
 
-    public EmployeeDTO getEmployeeDTO(int id) {
+
+    public EmployeeEntity saveEmployee(EmployeeEntity employeeEntity) {
+        if(!employeeEntityDAO.existsById(employeeEntity.getId())){
+            return employeeEntityDAO.save(employeeEntity);
+        }
+        return null;
+    }
+
+    public void deleteById(int id) {
+        if(employeeEntityDAO.existsById(id)){
+            employeeEntityDAO.deleteById(id);
+        }
+    }
+
+    public void updateEmployee(EmployeeEntity employeeEntity) {
+        if(employeeEntityDAO.existsById(employeeEntity.getId())){
+            updateEmployee(employeeEntity);
+        }
+    }
+
+       /*public EmployeeDTO getEmployeeDTO(int id) {
         EmployeeEntity emp = getEmployeeById(id);
         if (emp == null) return null;
 
@@ -41,15 +60,5 @@ class serviceEmployee {
             dto.setLoc(emp.getDeptno().getLoc());
         }
         return dto;
-    }
-
-    public EmployeeEntity save(EmployeeEntity employeeEntity) {
-        return employeeEntity;
-    }
-
-    public void deleteById(int id) {
-    }
-
-    public void findByDeptnoIsGreaterThan(int deptno) {
-    }
+    }*/
 }
