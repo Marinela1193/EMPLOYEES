@@ -34,7 +34,7 @@ class employeesController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EmployeeDTO> findUserById(@PathVariable(value = "id") Integer id) {
+    public ResponseEntity<EmployeeDTO> findUserById(@Validated @PathVariable(value = "id") Integer id) {
         return ResponseEntity.ok(serviceEmployee.getEmployeeById(id));
     }
 
@@ -60,13 +60,13 @@ class employeesController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateUser(@Validated @RequestBody EmployeeEntity employee,@NotNull @Min(0) @PathVariable(value = "id") int id) {
+    public ResponseEntity<?> updateUser(@Validated @RequestBody EmployeeDTO employee,@NotNull @Min(0) @PathVariable(value = "id") int id) {
 
         Optional<EmployeeEntity> optional = employeeEntityDAO.findById(id);
         if (optional.isPresent()) {
             EmployeeEntity employeeEntity = optional.get();
             employeeEntity.setEname(employee.getEname());
-            employeeEntity.setId(employee.getId());
+            employeeEntity.setId(employee.getEmpno());
             employeeEntity.setJob(employee.getJob());
             employeeEntity.setDeptno(employee.getDeptno());
             serviceEmployee.saveEmployee(employeeEntity);
@@ -76,11 +76,13 @@ class employeesController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable (value = "id") int id) {
+    public ResponseEntity<?> deleteUser(@Validated @PathVariable (value = "id") int id) {
         Optional<EmployeeEntity> optional = employeeEntityDAO.findById(id);
         if (optional.isPresent()) {
             employeeEntityDAO.deleteById(id);
+            return ResponseEntity.ok().build();
         }
+        return  ResponseEntity.badRequest().build();
     }
 
 }
