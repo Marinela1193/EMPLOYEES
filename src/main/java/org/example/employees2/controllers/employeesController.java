@@ -69,7 +69,7 @@ class employeesController {
             employeeEntity.setId(employee.getEmpno());
             employeeEntity.setJob(employee.getJob());
             employeeEntity.setDeptno(employee.getDeptno());
-            serviceEmployee.saveEmployee(employeeEntity);
+            serviceEmployee.updateEmployee(employeeEntity);
             return ResponseEntity.ok().build();
         }
         return  ResponseEntity.badRequest().build();
