@@ -27,15 +27,27 @@ class employeesController {
     /*@Autowired
     private DeptEntityDAO deptEntityDAO;*/
 
+    //he puesto interrogación porque el ok me daba error, pero
+    //estaba usando un EmployeeDTO en lugar de ?
     @GetMapping("/")
-    public ResponseEntity <List<EmployeeDTO>> findAllUsers() {
+    public ResponseEntity <List<?>> findAllUsers() {
 
         return ResponseEntity.ok(serviceEmployee.getEmployees());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EmployeeDTO> findUserById(@Validated @PathVariable(value = "id") Integer id) {
-        return ResponseEntity.ok(serviceEmployee.getEmployeeById(id));
+    public ResponseEntity<?> findUserById(@Validated @PathVariable(value = "id") int id) {
+        EmployeeEntity employee = serviceEmployee.getEmployeeById(id);
+
+        return ResponseEntity.ok(employee);
+    }
+
+    @GetMapping("/dept/{deptNo}")
+    public ResponseEntity<?> findUserByDeptNo(@PathVariable(value = "deptNo") int deptNo) {
+
+        EmployeeEntity employee = serviceEmployee.getEmployeeByDeptNo(deptNo);
+
+        return  ResponseEntity.ok(employee);
     }
 
     @PostMapping("/")
