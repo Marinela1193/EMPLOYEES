@@ -1,36 +1,22 @@
 package org.example.employees2.models.dto;
 
 public class EmployeeDTO {
-    private int empno;
-    private String employeename;
-    private String job;
+
     private int deptno;
-    private String dname;
+    private String ename;
     private String dloc;
+    private String employeeNumber;
+    private int superior;
 
-
-    public int getEmpno() {
-        return empno;
+    public EmployeeDTO(int deptno, String ename, String dloc, String employeeNumber, int superior) {
+        this.deptno = deptno;
+        this.ename = ename;
+        this.dloc = dloc;
+        this.employeeNumber = employeeNumber;
+        this.superior = superior;
     }
 
-    public void setEmpno(int empno) {
-        this.empno = empno;
-    }
-
-    public String getEmployeeName() {
-        return employeename;
-    }
-
-    public void setEmployeeName(String employeename) {
-        this.employeename = employeename;
-    }
-
-    public String getJob() {
-        return job;
-    }
-
-    public void setJob(String job) {
-        this.job = job;
+    public EmployeeDTO() {
     }
 
     public int getDeptno() {
@@ -41,20 +27,35 @@ public class EmployeeDTO {
         this.deptno = deptno;
     }
 
-    public String getDname() {
-        return dname;
+    public String getEname() {
+        return ename;
     }
 
-    public void setDname(String dname) {
-        this.dname = dname;
+    public void setEname(String ename) {
+        this.ename = ename;
     }
 
-    public String getLoc() {
+    public String getDloc() {
         return dloc;
     }
 
-    public void setLoc(String dloc) {
+    public void setDloc(String dloc) {
         this.dloc = dloc;
     }
 
+    public String getEmployeeNumber() {
+        return employeeNumber;
+    }
+
+    public void setEmployeeNumber(String employeeNumber) {
+        this.employeeNumber = employeeNumber;
+    }
+
+    public int getSuperior() {
+        return superior;
+    }
+
+    public void setSuperior(int superior) {
+        this.superior = superior;
+    }
 }
