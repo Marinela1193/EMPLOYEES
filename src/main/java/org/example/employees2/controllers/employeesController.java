@@ -79,7 +79,7 @@ class employeesController {
     public ResponseEntity<?> deleteUser(@Validated @PathVariable (value = "id") int id) {
         Optional<EmployeeEntity> optional = employeeEntityDAO.findById(id);
         if (optional.isPresent()) {
-            employeeEntityDAO.deleteById(id);
+            serviceEmployee.deleteById(id);
             return ResponseEntity.ok().build();
         }
         return  ResponseEntity.badRequest().build();
