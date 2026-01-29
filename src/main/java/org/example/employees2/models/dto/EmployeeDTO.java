@@ -2,29 +2,26 @@ package org.example.employees2.models.dto;
 
 public class EmployeeDTO {
 
-    private int deptno;
+    private int empno;
     private String ename;
-    private String dloc;
-    private String employeeNumber;
-    private int superior;
+    private String job;
+    private int deptno;
 
-    public EmployeeDTO(int deptno, String ename, String dloc, String employeeNumber, int superior) {
-        this.deptno = deptno;
+    public EmployeeDTO(int empno, String ename, String job, int deptno) {
+        this.empno = empno;
         this.ename = ename;
-        this.dloc = dloc;
-        this.employeeNumber = employeeNumber;
-        this.superior = superior;
-    }
-
-    public EmployeeDTO() {
-    }
-
-    public int getDeptno() {
-        return deptno;
-    }
-
-    public void setDeptno(int deptno) {
+        this.job = job;
         this.deptno = deptno;
+    }
+
+    public EmployeeDTO() {}
+
+    public int getEmpno() {
+        return empno;
+    }
+
+    public void setEmpno(int empno) {
+        this.empno = empno;
     }
 
     public String getEname() {
@@ -35,27 +32,19 @@ public class EmployeeDTO {
         this.ename = ename;
     }
 
-    public String getDloc() {
-        return dloc;
+    public String getJob() {
+        return job;
     }
 
-    public void setDloc(String dloc) {
-        this.dloc = dloc;
+    public void setJob(String job) {
+        this.job = job;
     }
 
-    public String getEmployeeNumber() {
-        return employeeNumber;
+    public int getDeptno() {
+        return deptno;
     }
 
-    public void setEmployeeNumber(String employeeNumber) {
-        this.employeeNumber = employeeNumber;
-    }
-
-    public int getSuperior() {
-        return superior;
-    }
-
-    public void setSuperior(int superior) {
-        this.superior = superior;
+    public void setDeptno(int deptno) {
+        this.deptno = deptno;
     }
 }
