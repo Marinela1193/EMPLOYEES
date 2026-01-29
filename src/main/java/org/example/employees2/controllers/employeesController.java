@@ -2,7 +2,10 @@ package org.example.employees2.controllers;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import org.example.employees2.models.dao.DeptEntityDAO;
 import org.example.employees2.models.dao.EmployeeEntityDAO;
+import org.example.employees2.models.dto.EmployeeDTO;
+import org.example.employees2.models.entities.DeptEntity;
 import org.example.employees2.models.entities.EmployeeEntity;
 import org.example.employees2.service.serviceEmployee;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,83 +21,67 @@ import java.util.Optional;
 class employeesController {
     @Autowired
     serviceEmployee serviceEmployee;
+    @Autowired
+    private EmployeeEntityDAO employeeEntityDAO;
 
     /*@Autowired
     private DeptEntityDAO deptEntityDAO;*/
 
     @GetMapping("/")
-    public List<EmployeeEntity> findAllUsers() {
+    public ResponseEntity <List<EmployeeDTO>> findAllUsers() {
 
-        return serviceEmployee.getEmployees();
+        return ResponseEntity.ok(serviceEmployee.getEmployees());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EmployeeEntity> findUserById(@PathVariable(value = "id") int id) {
-        EmployeeEntity employee = serviceEmployee.getEmployeeById(id);
-
-        if(employee != null) {
-            return ResponseEntity.ok().body(employee);
-        }else{
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<EmployeeDTO> findUserById(@PathVariable(value = "id") Integer id) {
+        return ResponseEntity.ok(serviceEmployee.getEmployeeById(id));
     }
 
     @PostMapping("/")
-    public ResponseEntity<?> saveUser(@Validated @RequestBody EmployeeEntity employeeEntity) {
-       List<EmployeeEntity> listEmployees = serviceEmployee.getEmployees();
-        for(EmployeeEntity e : serviceEmployee.getEmployees()){
-            if(e.getId().equals(employeeEntity.getId())){
-                return ResponseEntity.badRequest().build();
-            }
+    public ResponseEntity<?> saveUser(@Validated @RequestBody EmployeeDTO employeeDTO) {
+
+        Optional<EmployeeEntity> optional = employeeEntityDAO.findById(employeeDTO.getEmpno());
+
+        if (optional.isPresent()) {
+            return ResponseEntity.badRequest().build();
         }
+        Optional<DeptEntity> dept = DeptEntityDAO.findById(optional.get().getDeptno());
+        EmployeeEntity employeeEntity = new EmployeeEntity();
+        employeeEntity.setId(employeeDTO.getEmpno());
+        employeeEntity.setEname(employeeDTO.getEname());
+        employeeEntity.setJob(employeeDTO.getJob());
+        employeeEntity.setDeptno(employeeDTO.getDeptno());
+        /*me falta poder guardar el departamento,
+        ya que en la entidad el departamento es un objeto clase departamento*/
+
         serviceEmployee.saveEmployee(employeeEntity);
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateUser(@Validated @RequestBody EmployeeEntity employee,@NotNull @Min(0) @PathVariable(value = "id") int id) {
-        List<EmployeeEntity> listEmployees = serviceEmployee.getEmployees();
-        for (EmployeeEntity e : serviceEmployee.getEmployees()) {
-            if (e.getId().equals(employee.getId())) {
-                e.setDeptno(employee.getDeptno());
-                e.setId(employee.getId());
-                e.setEname(employee.getEname());
-                e.setJob(employee.getJob());
 
-                return serviceEmployee.updateEmployee(employee);
-                return ResponseEntity.ok().body("Updated");
-            } else {
-                return ResponseEntity.notFound().build();
-            }
+        Optional<EmployeeEntity> optional = employeeEntityDAO.findById(id);
+        if (optional.isPresent()) {
+            EmployeeEntity employeeEntity = optional.get();
+            employeeEntity.setEname(employee.getEname());
+            employeeEntity.setId(employee.getId());
+            employeeEntity.setJob(employee.getJob());
+            employeeEntity.setDeptno(employee.getDeptno());
+            serviceEmployee.saveEmployee(employeeEntity);
+            return ResponseEntity.ok().build();
         }
+        return  ResponseEntity.badRequest().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable (value = "id") int id) {
-            List<EmployeeEntity> listEmployees1 = serviceEmployee.getEmployees();
-            for(EmployeeEntity e : serviceEmployee.getEmployees()) {
-                if (e.getId().equals(id)) {
-                    serviceEmployee.deleteById(id);
-                    return ResponseEntity.ok().body("Deleted");
-                }
-            }
-            return ResponseEntity.notFound().build();
+        Optional<EmployeeEntity> optional = employeeEntityDAO.findById(id);
+        if (optional.isPresent()) {
+            employeeEntityDAO.deleteById(id);
         }
+    }
 
-
-     /*@GetMapping("/byDeptno/{deptno}")
-    public List<EmployeeEntity> findUserByDeptno(@PathVariable(value = "deptno") int deptno) {
-        return employeeEntityDAO.findByDeptnoGreaterThan(deptno);
-    }*/
-
-    /*@GetMapping("/dto/{id}")
-    public ResponseEntity<EmployeeDeptDTO> findEmployeeDTOById(@PathVariable(value = "id") int id) {
-        Optional<EmployeeEntity> Employee = employeeEntityDAO.findById(id);
-
-        if(Employee.isPresent()) {
-            Optional<DeptEntity> Department = DeptEntityDAO.findById(Employee.get().getDeptno());
-
-        }
-        return null;
-    }*/
 }
 
