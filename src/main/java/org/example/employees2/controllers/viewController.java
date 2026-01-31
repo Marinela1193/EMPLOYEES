@@ -6,12 +6,10 @@ import org.example.employees2.models.entities.DeptEntity;
 import org.example.employees2.models.entities.EmployeeEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/")
@@ -80,6 +78,18 @@ class viewController {
     public String verempleados(Model model) {
         List<EmployeeEntity> employees = (List<EmployeeEntity>) employeeEntityDAO.findAll();
         model.addAttribute("empleados", employees);
+        return "verempleados";
+    }
+
+    @GetMapping("/verempleado")
+    public String verempleado(Model model, @RequestParam(name = "empno", required = true) int id) {
+        Optional<EmployeeEntity> employee = employeeEntityDAO.findById(id);
+        if(!employee.isPresent()) {
+            model.addAttribute("tipo_operacion", "error");
+            model.addAttribute("message", "No se encontró al empleado con id: " + id);
+            return "error";
+        }
+        model.addAttribute("empleado", employee.get());
         return "verempleados";
     }
 
