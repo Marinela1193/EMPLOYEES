@@ -41,21 +41,33 @@ class viewController {
     }
 
     @PostMapping("/altadepartamento")
-    public String crearDepartamentos(@ModelAttribute DeptEntity deptEntity) {
+    public String crearDepartamentos(@ModelAttribute DeptEntity deptEntity, Model model) {
         if(!deptEntityDAO.existsById(deptEntity.getId())) {
             deptEntityDAO.save(deptEntity);
+            model.addAttribute("tipo_operacion", "ok");
+            model.addAttribute("message", "Departamento creado correctamente");
+        }
+        else{
+            model.addAttribute("tipo_operacion", "error");
+            model.addAttribute("message", "Error al crear el departamente: ya existe");
         }
         return "altadepartamento";
     }
 
     @PostMapping("/altadepartamento")
-    public String updateDepartamentos(@ModelAttribute DeptEntity deptEntity) {
+    public String updateDepartamentos(@ModelAttribute DeptEntity deptEntity, Model model) {
         if(deptEntityDAO.existsById(deptEntity.getId())) {
             DeptEntity newDept = new DeptEntity();
             newDept.setId(deptEntity.getId());
             newDept.setDname(deptEntity.getDname());
             newDept.setLoc(deptEntity.getLoc());
             deptEntityDAO.save(newDept);
+            model.addAttribute("tipo_operacion", "ok");
+            model.addAttribute("message", "Departamento actualizado correctamente");
+        }
+        else{
+            model.addAttribute("tipo_operacion", "error");
+            model.addAttribute("message", "Error al actualizar el departamente");
         }
         return "altadepartamento";
     }
