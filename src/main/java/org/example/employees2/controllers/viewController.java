@@ -81,8 +81,34 @@ class viewController {
         return "verempleados";
     }
 
-    @GetMapping("/verempleado")
-    public String verempleado(Model model, @RequestParam(name = "empno", required = true) int id) {
+    @GetMapping("/verempleados")
+    public String verempleadosdpt(Model model, @RequestParam(name = "depno", required = false) Integer depno) {
+        List<DeptEntity> depts = (List<DeptEntity>) deptEntityDAO.findAll();
+        model.addAttribute("depts", depts);
+        List<EmployeeEntity> employees;
+        if (depno == null)
+            employees = (List<EmployeeEntity>) employeeEntityDAO.findAll();
+        else
+            employees = (List<EmployeeEntity>) employeeEntityDAO.findByDepno(depno); // no se cómo crear esté metodo
+            model.addAttribute("empleados", employees);
+            return "verempleados";
+    }
+
+    @GetMapping("/verempleados")
+    public String verempleadosjobposition(Model model, @RequestParam(name = "job", required = false) String job) {
+        List<EmployeeEntity> employees = (List<EmployeeEntity>) employeeEntityDAO.findAll();
+        model.addAttribute("employees", employees);
+        List<EmployeeEntity> employeesjob;
+        if (job == null)
+            employeesjob = (List<EmployeeEntity>) employeeEntityDAO.findAll();
+        else
+            employeesjob = (List<EmployeeEntity>) employeeEntityDAO.findByJob(job); // no se cómo crear esté metodo
+        model.addAttribute("empleados", employees);
+        return "verempleados";
+    }
+
+    @GetMapping("/verempleados")
+    public String verempleado(Model model, @RequestParam(name = "empno", required = true) Integer id) {
         Optional<EmployeeEntity> employee = employeeEntityDAO.findById(id);
         if(!employee.isPresent()) {
             model.addAttribute("tipo_operacion", "error");
