@@ -66,4 +66,7 @@ public interface EmployeeEntityDAO extends CrudRepository<EmployeeEntity, Intege
 
     boolean existsById(Integer id);
 
+    Object findByDepno(Integer depno);
+
+    Object findByJob(String job);
 }
