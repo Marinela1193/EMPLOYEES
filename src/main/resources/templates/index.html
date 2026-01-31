@@ -16,21 +16,3 @@
     </tbody>
 </table>
 
-<a href="http://localhost:8080/api/verempleados" class="button">Ver Empleados</a>
-<table>
-    <thead>
-    <th>Número de Empleado</th>
-    <th>Nombre</th>
-    <th>Puesto de trabajo</th>
-    <th>Departamento</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="empleado : ${empleados}">
-        <td th:text="${empleado.empno}"></td>
-        <td th:text="${empleado.ename}"></td>
-        <td th:text="${empleado.job}"></td>
-        <td th:text="${empleado.deptno}"></td>
-    </tr>
-    </tbody>
-</table>
