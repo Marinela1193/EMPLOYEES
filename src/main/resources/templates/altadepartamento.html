@@ -13,4 +13,7 @@
         <input type="text" id="ubicacion" name="ubicacion" required>
     </div>
     <button class="form_button" type="submit">Crear Departamento</button>
+    <div th:if="${message}" class="alert alert-success" th:text="${message}">
+        <p th:text="${message}"></p>
+    </div>
 </form>
