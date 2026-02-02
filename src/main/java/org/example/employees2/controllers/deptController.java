@@ -25,7 +25,7 @@ class deptController {
 
     @GetMapping("/dto/")
     public ResponseEntity <List<?>> findAllDept() {
-        List<?> list = serviceDepto.findAll();
+        return ResponseEntity.ok(serviceDepto.findAll());
     }
 
     @GetMapping("/dto/{id}")

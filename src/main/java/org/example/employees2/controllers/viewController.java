@@ -42,7 +42,7 @@ class viewController {
         return "altadepartamento";
     }
 
-    @PostMapping("/altadepartamento")
+    @PostMapping("/altadepartamento/crear")
     public String crearDepartamentos(@ModelAttribute DeptEntity deptEntity, Model model) {
         if(!deptEntityDAO.existsById(deptEntity.getId())) {
             deptEntityDAO.save(deptEntity);
@@ -56,7 +56,7 @@ class viewController {
         return "altadepartamento";
     }
 
-    @PostMapping("/altadepartamento")
+    @PostMapping("/altadepartamento/actualizar")
     public String updateDepartamentos(@ModelAttribute DeptEntity deptEntity, Model model) {
         if(deptEntityDAO.existsById(deptEntity.getId())) {
             DeptEntity newDept = new DeptEntity();
@@ -81,20 +81,20 @@ class viewController {
         return "verempleados";
     }
 
-    @GetMapping("/verempleados")
-    public String verempleadosdpt(Model model, @RequestParam(name = "depno", required = false) Integer depno) {
+    @GetMapping("/verempleados/{id}")
+    public String verempleadosdpt(Model model, @RequestParam(name = "deptno", required = false) Integer depno) {
         List<DeptEntity> depts = (List<DeptEntity>) deptEntityDAO.findAll();
         model.addAttribute("depts", depts);
         List<EmployeeEntity> employees;
         if (depno == null)
             employees = (List<EmployeeEntity>) employeeEntityDAO.findAll();
         else
-            employees = (List<EmployeeEntity>) employeeEntityDAO.findByDepno(depno); // no se cómo crear esté metodo
+            employees = (List<EmployeeEntity>) employeeEntityDAO.findByDeptno(depno); // no se cómo crear esté metodo
             model.addAttribute("empleados", employees);
             return "verempleados";
     }
 
-    @GetMapping("/verempleados")
+    @GetMapping("/verempleados/{job}")
     public String verempleadosjobposition(Model model, @RequestParam(name = "job", required = false) String job) {
         List<EmployeeEntity> employees = (List<EmployeeEntity>) employeeEntityDAO.findAll();
         model.addAttribute("employees", employees);
@@ -102,12 +102,12 @@ class viewController {
         if (job == null)
             employeesjob = (List<EmployeeEntity>) employeeEntityDAO.findAll();
         else
-            employeesjob = (List<EmployeeEntity>) employeeEntityDAO.findByJob(job); // no se cómo crear esté metodo
+            employeesjob = (List<EmployeeEntity>) employeeEntityDAO.findByJob(job);
         model.addAttribute("empleados", employees);
         return "verempleados";
     }
 
-    @GetMapping("/verempleados")
+    @GetMapping("/verempleados/{id}")
     public String verempleado(Model model, @RequestParam(name = "empno", required = true) Integer id) {
         Optional<EmployeeEntity> employee = employeeEntityDAO.findById(id);
         if(!employee.isPresent()) {
@@ -119,13 +119,13 @@ class viewController {
         return "verempleados";
     }
 
-    @GetMapping("/altaempleado")
+    @GetMapping("/altaempleado/")
     public String altaempleado(Model model) {
         model.addAttribute("empleado", new EmployeeEntity());
         return "altaempleado";
     }
 
-    @PostMapping("/altaempleado")
+    @PostMapping("/altaempleado/crear")
     public String crearEmpleado(@ModelAttribute EmployeeEntity employeeEntity, Model model) {
         if(!employeeEntityDAO.existsById(employeeEntity.getId())) {
             employeeEntityDAO.save(employeeEntity);
@@ -139,7 +139,7 @@ class viewController {
         return "altaempleado";
     }
 
-    @PostMapping("/altaempleado")
+    @PostMapping("/altaempleado/actualizar")
     public String updateEmpleado(@ModelAttribute EmployeeEntity employeeEntity, Model model) {
         if(employeeEntityDAO.existsById(employeeEntity.getId())) {
             EmployeeEntity newEmp = new EmployeeEntity();

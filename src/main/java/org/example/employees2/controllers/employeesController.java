@@ -25,11 +25,10 @@ class employeesController {
     @Autowired
     private EmployeeEntityDAO employeeEntityDAO;
 
-    /*@Autowired
-    private DeptEntityDAO deptEntityDAO;*/
+    @Autowired
+    private DeptEntityDAO deptEntityDAO;
 
-    //he puesto interrogación porque el ok me daba error, pero
-    //estaba usando un EmployeeDTO en lugar de ?
+
     @GetMapping("/")
     public ResponseEntity <List<?>> findAllUsers() {
 
@@ -59,14 +58,12 @@ class employeesController {
         if (optional.isPresent()) {
             return ResponseEntity.badRequest().build();
         }
-        Optional<DeptEntity> dept = DeptEntityDAO.findById(optional.get().getDeptno());
+        Optional<DeptEntity> dept = deptEntityDAO.findById(employeeDTO.getDeptno());
         EmployeeEntity employeeEntity = new EmployeeEntity();
         employeeEntity.setId(employeeDTO.getEmpno());
         employeeEntity.setEname(employeeDTO.getEname());
         employeeEntity.setJob(employeeDTO.getJob());
-        employeeEntity.setDeptno(dept);
-        /*me falta poder guardar el departamento,
-        ya que en la entidad el departamento es un objeto clase departamento*/
+        employeeEntity.setDeptno(dept.get());
 
         serviceEmployee.saveEmployee(employeeEntity);
         return ResponseEntity.ok().build();
@@ -77,11 +74,13 @@ class employeesController {
 
         Optional<EmployeeEntity> optional = employeeEntityDAO.findById(id);
         if (optional.isPresent()) {
+            Optional<DeptEntity> dept = deptEntityDAO.findById(employee.getDeptno());
+
             EmployeeEntity employeeEntity = optional.get();
             employeeEntity.setEname(employee.getEname());
             employeeEntity.setId(employee.getEmpno());
             employeeEntity.setJob(employee.getJob());
-            employeeEntity.setDeptno(employee.getDeptno());
+            employeeEntity.setDeptno(dept.get());
             serviceEmployee.updateEmployee(employeeEntity);
             return ResponseEntity.ok().build();
         }
