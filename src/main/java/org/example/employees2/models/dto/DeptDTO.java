@@ -1,13 +1,13 @@
 package org.example.employees2.models.dto;
 
-public class EmployeeDeptDTO {
+public class DeptDTO {
     private int deptno;
     private String ename;
     private String dloc;
     private String employeeNumber;
     private int superior;
 
-    public EmployeeDeptDTO(int deptno, String ename, String dloc, String employeeNumber, int superior) {
+    public DeptDTO(int deptno, String ename, String dloc, String employeeNumber, int superior) {
         this.deptno = deptno;
         this.ename = ename;
         this.dloc = dloc;
@@ -15,7 +15,7 @@ public class EmployeeDeptDTO {
         this.superior = superior;
     }
 
-    public EmployeeDeptDTO() {
+    public DeptDTO() {
     }
 
     public int getDeptno() {

@@ -4,6 +4,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import org.example.employees2.models.dao.DeptEntityDAO;
 import org.example.employees2.models.dao.EmployeeEntityDAO;
+import org.example.employees2.models.dto.DeptDTO;
 import org.example.employees2.models.dto.EmployeeDTO;
 import org.example.employees2.models.entities.DeptEntity;
 import org.example.employees2.models.entities.EmployeeEntity;
@@ -63,7 +64,7 @@ class employeesController {
         employeeEntity.setId(employeeDTO.getEmpno());
         employeeEntity.setEname(employeeDTO.getEname());
         employeeEntity.setJob(employeeDTO.getJob());
-        employeeEntity.setDeptno(employeeDTO.getDeptno());
+        employeeEntity.setDeptno(dept);
         /*me falta poder guardar el departamento,
         ya que en la entidad el departamento es un objeto clase departamento*/
 
