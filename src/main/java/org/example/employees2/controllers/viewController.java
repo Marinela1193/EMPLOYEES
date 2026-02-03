@@ -24,8 +24,7 @@ class viewController {
     }
 
     @GetMapping("/")
-    public String index()
-    {
+    public String index() {
         return "index";
     }
 
@@ -36,29 +35,31 @@ class viewController {
         return "verdepartamentos";
     }
 
+
     @GetMapping("/altadepartamento")
     public String altadepartamentos(Model model) {
         model.addAttribute("departamento", new DeptEntity());
         return "altadepartamento";
     }
 
+
     @PostMapping("/altadepartamento/crear")
     public String crearDepartamentos(@ModelAttribute DeptEntity deptEntity, Model model) {
-        if(!deptEntityDAO.existsById(deptEntity.getId())) {
+        if (!deptEntityDAO.existsById(deptEntity.getId())) {
             deptEntityDAO.save(deptEntity);
             model.addAttribute("tipo_operacion", "ok");
             model.addAttribute("message", "Departamento creado correctamente");
-        }
-        else{
+        } else {
             model.addAttribute("tipo_operacion", "error");
             model.addAttribute("message", "Error al crear el departamente: ya existe");
         }
         return "altadepartamento";
     }
 
+
     @PostMapping("/altadepartamento/actualizar")
     public String updateDepartamentos(@ModelAttribute DeptEntity deptEntity, Model model) {
-        if(deptEntityDAO.existsById(deptEntity.getId())) {
+        if (deptEntityDAO.existsById(deptEntity.getId())) {
             DeptEntity newDept = new DeptEntity();
             newDept.setId(deptEntity.getId());
             newDept.setDname(deptEntity.getDname());
@@ -66,13 +67,13 @@ class viewController {
             deptEntityDAO.save(newDept);
             model.addAttribute("tipo_operacion", "ok");
             model.addAttribute("message", "Departamento actualizado correctamente");
-        }
-        else{
+        } else {
             model.addAttribute("tipo_operacion", "error");
             model.addAttribute("message", "Error al actualizar el departamente");
         }
         return "altadepartamento";
     }
+
 
     @GetMapping("/verempleados")
     public String verempleados(Model model) {
@@ -81,7 +82,7 @@ class viewController {
         return "verempleados";
     }
 
-    @GetMapping("/verempleados/{id}")
+    @GetMapping("/verempleados/{depno}")
     public String verempleadosdpt(Model model, @RequestParam(name = "deptno", required = false) Integer depno) {
         List<DeptEntity> depts = (List<DeptEntity>) deptEntityDAO.findAll();
         model.addAttribute("depts", depts);
@@ -90,8 +91,8 @@ class viewController {
             employees = (List<EmployeeEntity>) employeeEntityDAO.findAll();
         else
             employees = (List<EmployeeEntity>) employeeEntityDAO.findByDeptno(depno); // no se cómo crear esté metodo
-            model.addAttribute("empleados", employees);
-            return "verempleados";
+        model.addAttribute("empleados", employees);
+        return "verempleados";
     }
 
     @GetMapping("/verempleados/{job}")
@@ -107,10 +108,11 @@ class viewController {
         return "verempleados";
     }
 
+
     @GetMapping("/verempleados/{id}")
     public String verempleado(Model model, @RequestParam(name = "empno", required = true) Integer id) {
         Optional<EmployeeEntity> employee = employeeEntityDAO.findById(id);
-        if(!employee.isPresent()) {
+        if (!employee.isPresent()) {
             model.addAttribute("tipo_operacion", "error");
             model.addAttribute("message", "No se encontró al empleado con id: " + id);
             return "error";
@@ -119,11 +121,13 @@ class viewController {
         return "verempleados";
     }
 
+
     @GetMapping("/altaempleado/")
     public String altaempleado(Model model) {
         model.addAttribute("empleado", new EmployeeEntity());
         return "altaempleado";
     }
+
 
     @PostMapping("/altaempleado/crear")
     public String crearEmpleado(@ModelAttribute EmployeeEntity employeeEntity, Model model) {

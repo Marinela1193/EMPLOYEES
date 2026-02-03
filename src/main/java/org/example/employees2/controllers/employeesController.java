@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/employees")
-class employeesController {
+public class employeesController {
     @Autowired
     serviceEmployee serviceEmployee;
     @Autowired

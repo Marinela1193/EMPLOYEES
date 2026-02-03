@@ -19,6 +19,19 @@ public class EmployeeEntity {
     @JoinColumn(name = "deptno")
     private DeptEntity deptno;
 
+    public EmployeeEntity() {
+    }
+
+    public EmployeeEntity(DeptEntity deptno, String job, String ename, Integer id) {
+        this.deptno = deptno;
+        this.job = job;
+        this.ename = ename;
+        this.id = id;
+    }
+
+    public EmployeeEntity(int i, String nombre1, String s) {
+    }
+
     public Integer getId() {
         return id;
     }
